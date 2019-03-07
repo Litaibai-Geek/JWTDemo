@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试JWT</title>
+	<!-- 导入Jquery包 -->
+	<script type="text/javascript" src="lib/js/jquery-2.2.4.min.js">
+	</script>
+</head>
+<body>
+	
+	<center><h1>测试JWT</h1><br>
+	<input type="button" id="sub1" value="1.向服务器发送账号密码"/>
+	<input type="button" id="sub3" value="3.向服务器发送JWT"/>
+	</center>
+	<script type="text/javascript">
+	$(function(){
+		
+			var storage=window.localStorage;
+			$("#sub1").click(function(){
+		         $.ajax({
+		             type: "POST",
+		             url: "/TestJWT/login",
+		             data: {id:"1",username:"张三", password:"123456"},
+		             dataType: "json",
+		             success: function(data){
+		            	 			alert(data.data);
+		            	 			token = data.data;
+		            	             storage.setItem("token",token);
+		            	 			//将后端生成的token存入到header中，下一次请求带上token
+		            	 			//xmlhttp.setRequestHeader("token", data.data);
+		                      }
+		         });
+			});
+
+			$("#sub3").click(function(){
+				console.log(storage.getItem("token"));
+		         $.ajax({
+		             type: "POST",
+		             url: "/TestJWT/check",
+		             data: {username:"张三", password:"123456"},
+		             dataType: "json",
+		             headers: {      //请求头
+		                    Accept: "application/json; charset=utf-8",
+		                    token: "" +  storage.getItem("token")  //这是获取的token
+		                },
+		             success: function(data){
+		            	 			//alert(data);
+		            	 		//window.location.href = "/TestJWT/1.html";
+		                      },
+		              error: function(data){
+		            	  console.log(data);
+		              },
+		              
+		         });
+			});
+	});
+	</script>
+</body>
+</html>

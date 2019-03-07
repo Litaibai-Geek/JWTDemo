@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试跳转后token</title>
+	<!-- 导入Jquery包 -->
+	<script type="text/javascript" src="lib/js/jquery-2.2.4.min.js">
+	</script>
+</head>
+<body>
+	<center>跳转后的token：<div id="show_token"></div></center>
+</body>
+<script type="text/javascript">
+	$(function(){
+		alert(storage.getItem("token"));
+		$("#show_token").val(storage.getItem("token"));
+	});
+</script>
+</html>
